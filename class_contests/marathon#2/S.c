@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<string.h>
 #define MAX(a,b) ((a>b)?a:b)
 #define max 10000
 
@@ -44,16 +45,17 @@ void prime_facts(int n){
             n /= primes[i];
         }
     }
-    for(i=1; i<=max; i++){
-        occurences[i] = MAX(occurences[i], occurences_temp[i]);
+    for(i=0; i<10001 && primes[i]!=-1 && n; i++){
+        occurences[primes[i]] = MAX(occurences[primes[i]], occurences_temp[primes[i]]);
     }
-}
+}   
 
 void print_big(){
     int i;
     for(i=len-1; i; i--) if(big[i-1]!=0) break;
     printf("%ld", (long)big[i-1]);
-    for(i--; i; i--) printf("%ld", (long)big[i-1]);    
+    for(i--; i; i--) printf("%.9ld", (long)big[i-1]);    
+    /*for(i=len-1; i; i--) printf("%.9ld", (long)big[i-1]);*/
 }
 
 int main()
@@ -64,6 +66,7 @@ int main()
     for(ix=1; ix<=t; ix++){
         int n;
         scanf("%d", &n);
+        memset(big, 0, sizeof(big));
         big[0] = 1;
         int nums[n], i;
         for(i=0; i<n; i++){
