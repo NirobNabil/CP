@@ -19,6 +19,7 @@ int prime_facts(long long int n){
 			facts[next][1]++;
 		}
 	}
+	//if n>2 even after dividing inside the above loop. the n has come to a prime number after diviiding 
 	if(n>2) facts[++next][0]=n, facts[next][1]=1;// printf("%lld,%d ", n,n); 
 	//printf("\n");
 	facts[++next][0]=-1;

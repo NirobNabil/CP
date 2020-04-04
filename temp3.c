@@ -22,5 +22,7 @@ int generate_primes(){
 }
 
 int main(){
-	generate_primes();
+	char temp[10];
+    sprintf(temp, "%d ", 50);
+    printf("%d\n", strlen(temp));
 }

@@ -3,5 +3,5 @@
 
 int main(){
 	int t;
-	printf("%d\n", sizeof(t));
+	printf("%.0f\n", 5.000000001);
 }
