@@ -1,42 +1,23 @@
 #include <stdio.h>
 #include <string.h>
+#define MAX(a,b) ((a>b)?a:b)
+#define MIN(a,b) ((a>b)?b:a)
 
-//int sum[10] = {0,1,3,6,10,15,21,28,36,45}
-char gg[1000000000];
+int coo[2001][2] = {0};
 
-/*
-730
-832
-491
-504
-295
-402
-420
-*/
 int main(){
-    // int t;
-    // scanf("%d", &t);
-    // for(int ix=1; ix<=t; ix++){
-    //  int a, b;
-    //  scanf("%d %d", &a, &b);
-    //  a += a%3;
-    //  printf("%d\n", (b-a)/3);
-    // }
-    int sum=0;
-    scanf("%s", gg);
-    for(int i=0; i<strlen(gg); i++){
-        sum += gg[i];
-        // printf("%d %d %d %d\n", i, divis[i], sum, ((sum%3==0)?1:0));
-        //divis[i+1] = divis[i] + ((sum%3==0)?1:0);
-        //sums[i+1] = sum;
+    int n;
+    while(scanf("%d", &n) != EOF){
+        int next=0, max=0, min=2001, temp, res=0;
+        memset(coo, 0, sizeof(coo));
+        for(int i=0; i<n; i++){
+            scanf("%d %d", &coo[i], &coo[i][1]);
+        }
+        for(int i=0, r=0, g=0; i<n-2; i++){
+            for(int ix=0; ix<n; ix++){
+                if(!g) if(coo[ix][0]==coo[ix][1]) 
+            }
+        }
+        printf("res %d\n", res);
     }
-    printf("%d\n", sum);
-    // int n;
-    // scanf("%d", &n);
-    // int s=0;
-    // if(sum>9) s += sum[9];
-    // n -= 9;
-    // sum += sum[n/10-1]*10 + (n%10+1)*(n/10);
-    // sum += sum[n/100-1]*10 + (n%100+1)*(n/100);
-    // n = n%10;
 }

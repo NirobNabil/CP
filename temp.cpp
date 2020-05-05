@@ -1,56 +1,43 @@
-// C++ implementation for representing 
-// each word in a sentence as sum of 
-// ASCII values of each word 
-#include <iostream> 
-#include <string> 
-#include <vector> 
-using namespace std; 
+#include <bits/stdc++.h>
 
-// Function to compute the sum of ASCII values of each 
-// word separated by a space and return the total sum 
-// of the ASCII values, excluding the space. 
-long long int ASCIIWordSum(string str, 
-						vector<long long int>& sumArr) 
-{ 
+using namespace std;
+void writeln(vector<vector<int> > &
+	pegs, int n, int from, int to){
+	pegs[to].push_back(*--pegs[from].end());
+	pegs[from].pop_back();
+	for(peg : pegs){
+		for(int i : peg) cout << i << " ";
+		cout << "\n";
+	}
+	cout << endl;
+}
 
-	int l = str.length(); 
-	int sum = 0; 
-	long long int bigSum = 0L; 
-	for (int i = 0; i < l; i++) { 
+void Hanoi(vector<vector<int> > &pegs, int N, int From, int To_, int Temp){
+	if(N>0){
+	     Hanoi(pegs, N-1, From, Temp, To_);
+	     writeln (pegs, N, From, To_);
+	     Hanoi(pegs, N-1, Temp, To_, From);
+	}
+}
 
-		// Separate each word by 
-		// a space and store values 
-		// corresponding to each word 
-		if (str[i] == ' ') { 
-
-			bigSum += sum; 
-			sumArr.push_back(sum); 
-			sum = 0; 
-		} 
-		else
-
-			// Implicit type casting 
-			sum += str[i];		 
-	} 
-
-	// Storing the value of last word 
-	sumArr.push_back(sum); 
-	bigSum += sum; 
-	return bigSum; 
-} 
-// Driver function 
-int main() 
-{ 
-	string str = "GeeksforGeeks a computer science "
-				"portal for Geeks"; 
-	vector<long long int> sumArr; 
-
-	// Calling function 
-	long long int sum = ASCIIWordSum(str, sumArr); 
-
-	cout << "Sum of ASCII values:" << std::endl; 
-	for (auto x : sumArr) 
-		cout << x << " "; 
-	cout << endl << "Total sum -> " << sum; 
-	return 0; 
-} 
+int main(){
+	// set<pair<int, int> > g;
+	// g.insert(make_pair(1,2));
+	// g.insert(make_pair(2,3));
+	// for(auto i : g) cout << i.first << " " << i.second << endl;
+	// g.erase(make_pair(2,3));
+	// for(auto i : g) cout << i.first << " " << i.second << endl;
+	list<int> gg;
+	gg.push_back(1);
+	gg.push_back(2);
+	gg.push_back(3);
+	gg.push_back(4);
+	gg.push_back(5);
+	gg.push_back(6);
+	auto i = gg.begin();
+	i++; i++; i++; i++;
+	cout << *i << endl;
+	gg.insert((++i)--, gg.begin(), ++++gg.begin());
+	cout << *i << endl;
+	for(i : gg) cout << i << " ";
+}
