@@ -1,43 +1,38 @@
-#include <bits/stdc++.h>
+Ushan replied to you
 
+    kono O(1) type soln ache?
+
+
+Yea
+#include<bits/stdc++.h>
+#define ll long long
+#define pii pair<int,int>
+#define pll pair<long long, long long>
+#define PB push_back
+#define MP make_pair
+#define TS to_string
+#define F first
+#define S second
+#define endl '\n'
 using namespace std;
-void writeln(vector<vector<int> > &
-	pegs, int n, int from, int to){
-	pegs[to].push_back(*--pegs[from].end());
-	pegs[from].pop_back();
-	for(peg : pegs){
-		for(int i : peg) cout << i << " ";
-		cout << "\n";
-	}
-	cout << endl;
-}
-
-void Hanoi(vector<vector<int> > &pegs, int N, int From, int To_, int Temp){
-	if(N>0){
-	     Hanoi(pegs, N-1, From, Temp, To_);
-	     writeln (pegs, N, From, To_);
-	     Hanoi(pegs, N-1, Temp, To_, From);
-	}
-}
-
-int main(){
-	// set<pair<int, int> > g;
-	// g.insert(make_pair(1,2));
-	// g.insert(make_pair(2,3));
-	// for(auto i : g) cout << i.first << " " << i.second << endl;
-	// g.erase(make_pair(2,3));
-	// for(auto i : g) cout << i.first << " " << i.second << endl;
-	list<int> gg;
-	gg.push_back(1);
-	gg.push_back(2);
-	gg.push_back(3);
-	gg.push_back(4);
-	gg.push_back(5);
-	gg.push_back(6);
-	auto i = gg.begin();
-	i++; i++; i++; i++;
-	cout << *i << endl;
-	gg.insert((++i)--, gg.begin(), ++++gg.begin());
-	cout << *i << endl;
-	for(i : gg) cout << i << " ";
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        long long a,b,c,d,e,f,i,j,k,m,n,o,x1,y1,x2,y2,s1=0,s2=0,s=0;
+        cin>>x1>>y1>>x2>>y2;
+        a=x2-x1;
+        b=y2-y1;
+        if(b>=a){
+            s=a*(a+1)/2+a*(b-a)+a*(a-1)/2;
+        }
+        else{
+            s=b*(b+1)/2+b*(b-1)/2+(a-b)*b;
+        }
+        cout<<s+1<<"\n";
+    }
 }
