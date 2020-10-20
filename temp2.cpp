@@ -1,87 +1,70 @@
-#include <bits/stdc++.h>
+#include "bits/stdc++.h"
 using namespace std;
-int writeln(char state[64], vector<vector<int> > &pegs, int n, int from, int to){
-	char Tstate[64] = "";
-	pegs[to].push_back(*--pegs[from].end());
-	pegs[from].pop_back();
-	for(auto peg : pegs){
-		//cout << "| ";
-		sprintf(Tstate, "%s|", Tstate);
-		//for(auto i=peg.begin(); i!=peg.end(); i++) cout << *i << " ";
-		for(auto i=peg.rbegin(); i!=peg.rend(); i++) sprintf(Tstate, "%s%d", Tstate, *i);
-		//cout << "\n";
-	}
-	//cout << Tstate << endl;
-	//cout << endl;
-	if(strcmp(state, Tstate) == 0) return -1;
-	return 1;
+#define ll long long int
+
+int arr[100], links[100][2];
+queue<int> mem_pool;
+int s=-1, e=-1;
+bool Empty=1;
+
+int get(int i) {
+    int it=s;
+    if(it==-1) return -1;
+    // printf("%d ", i);
+    while(i-- && it!=e) it=links[it][1];
+    // printf("%d %d\n", i, it);
+    if(i>0) return -1;
+    else return it;
 }
 
-int Hanoi(int &gg, char state[64], vector<vector<int> > &pegs, int N, int From, int To_, int Temp){
-	int n = 0;
-	if(N>0){
-	     n += Hanoi(gg, state, pegs, N-1, From, Temp, To_);
-	     if(writeln (state, pegs, N, From, To_)==-1) gg = n+1;
-	     else n += 1;
-	     n += Hanoi(gg, state, pegs, N-1, Temp, To_, From);
-	}
-	return n;
+int insert(int i, int x) {
+    int it = get(i);
+    if(it==-1 && s!=-1) return 0;
+    int ci=mem_pool.front();
+    mem_pool.pop();
+    arr[ci] = x;
+    if(s==-1) { s=ci; e=ci; return 0; }
+    if(it==e) e = ci, links[ci][0]=it;
+    else links[links[it][1]][0] = ci;
+    links[it][1]=ci;
+    return 1;
 }
+
+int erase(int i) {
+    int it = get(i);
+    if(it==-1) return 0;
+    mem_pool.push(it);
+    if(it==s) s=links[it][1];
+    else {
+        // printf("y- %d %d %d\n", it, links[it][0], links[it][1]);
+        links[links[it][0]][1] = links[it][1];
+        links[links[it][1]][0] = links[it][0];
+        // printf("x- %d %d\n", links[links[it][0]][1], links[links[it][1]][0]);
+    }
+    return 1;
+}
+
 
 int main(){
-	int xd, n;
-	scanf("%d", &n);
-	xd=n;
-	vector<deque<int> > pegs(3, deque<int>());
-	char state[64] = "";
-	//while(xd--) pegs[0].pop_back(), pegs[1].pop_back(), pegs[2].pop_back();
-	//vector<int> ins(n);
-	for(int i=1; i<=n; i++){
-		//printf("%d\n", n);
-		int temp;
-		scanf("%d", &temp);
-		pegs[temp-1].push_back(i);
-	}
-	for(auto peg : pegs){
-		sprintf(state, "%s|", state);
-		for(int i : peg) sprintf(state, "%s%d", state, i);
-	}
-	//printf("%s\n", state);
-	// for(auto i=ins.rbegin(); i!=ins.rend(); i++) cout << *i << endl;
-	// for(int i=ins.size()-1; i>0; i--) pegs[ins[i]-1].push_back(i);
-	int min1;
-	//cout << pegs[2].back();
-	if(pegs[1].empty() || pegs[2].empty()){
-		if(pegs[1].empty()) min1 = 2;
-		else if(pegs[2].empty()) min1 = 1;
-		else{
-			printf("0\n");	
-			return 0;
-		}
-		int i=1, x=pegs[min1].back()-1;
-		while(x--){
-			i = i*2+1;
-		}
-		printf("%d\n", i);
-		return 0;
-	}
-	else if(pegs[1].back() > pegs[2].back()) min1 = 2;
-	xd=n;
-	vector<vector<int> > tpegs(3, vector<int>(n));
-	for(int i=0; i<xd; i++) tpegs[0].pop_back(), tpegs[1].pop_back(), tpegs[2].pop_back();
-	for(int i=pegs[((min1==1)?2:1)].back()-1; i>0; i--) tpegs[min1].push_back(i);
-	for(int i=n; i>pegs[((min1==1)?2:1)].back()-1; i--) tpegs[0].push_back(i);
-	//writeln(state, tpegs, 0, 0, 0);
-	int t=0, i=0, x=pegs[((min1==1)?2:1)].back();
-	while(x--){
-		i = 2*i+1;
-	}
-	//cout << min1 << endl;
-	writeln(state, tpegs, 0, 0, 0);
-	if(writeln(state, tpegs, 1, 0, ((min1==1)?2:1))==-1) cout << i +1 << endl;
-	else{
-		int gg;
-		int xx = Hanoi(gg, state, tpegs, tpegs[min1][0], min1, ((min1==1)?2:1), 0);
-		cout << i + 1 + gg;
-	}
+    int n=5,t;
+    memset(links, -1, sizeof(links));
+    for(int i=0; i<100; i++) {
+        mem_pool.push(i);
+    }
+    for(int i=0; i<n; i++) {
+        scanf("%d", &t);
+        insert(i, t);
+    }
+    // printf("links\n");
+    // for(int i=0; i<n; i++) printf("%d ", links[i][0]);
+    // printf("\n");
+    // for(int i=0; i<n; i++) printf("%d ", i);
+    // printf("\n");
+    // for(int i=0; i<n; i++) printf("%d ", links[i][1]);
+    // printf("\n");
+    insert(5,6);
+    if(!erase(2)) printf("gg\n");;
+    for(int i=0; i<n; i++) {
+        printf("%d %d\n", get(i), arr[get(i)]);
+    }
 }

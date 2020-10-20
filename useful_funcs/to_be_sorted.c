@@ -55,3 +55,28 @@ void print_big(){
     for(i--; i; i--) printf("%.9ld", (long)big[i-1]);    
     /*for(i=len-1; i; i--) printf("%.9ld", (long)big[i-1]);*/
 }
+
+ll fact(ll n, ll k){
+    ll c=1;
+    for(ll i=0, j=n; i<k; i++, j--) {
+        c *= j;
+    }
+    return c;
+}
+
+ll NcR(ll n, ll r) 
+{ 
+    ll p = 1, k = 1; 
+    if (n - r < r) r = n - r; 
+    if (r != 0) { 
+        while ( r-- && n-- ) { 
+            p *= n; 
+            k *= r; 
+            ll m = __gcd(p, k); 
+            p /= m; 
+            k /= m;   
+        } 
+    } 
+    else  p = 1; 
+  return p;
+} 
