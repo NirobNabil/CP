@@ -8,9 +8,8 @@ using namespace std;
 int  k, n, m, x, y, l, s, d, ans, path[1005][2], visited[1005];
 unordered_map<int ,unordered_map<int ,int > > adj;
 
-deque<item > q;
-
 void bfs(int x, int j) { //y and x are flipped
+	deque<item > q;
 	q.clear();
 	PUSH(x, 0);
 	// int gg=20;

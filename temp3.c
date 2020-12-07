@@ -1,17 +1,27 @@
-#include "bits/stdc++.h"
-using namespace std;
-#define ll long long int
+#include <stdio.h>
+#include <math.h>
+
+int getprime(int n){
+    int i=1, c=0, x;
+    bool gg;
+    if(n==2) return 3;
+    if(n==1) return 2;
+    while(i++) {
+        gg=false;
+        x = (int)sqrt(i);
+        for(int ix=2; ix<=x; ix++) {
+            if(i%ix==0) {
+                gg=true;
+                break;
+            }
+        }
+        if(gg==false) c++;
+        if(c==n) return i;
+    }
+}
 
 int main(){
-    int n=10;
-    // unsigned int d[n];
-    // memset(d, 0b11111111, sizeof(d));
-    unordered_map<int, unordered_map<int,int>> d, t;
-    // fill(d, d+n, t);
-    for(int i=0; i<10; i++) {
-        cout << d[i].size() << endl;
-        // d[i][3] = 5;
-        if(d[i][5]) printf("gg\n");
-    }
-    // printf("%u\n", 0b11111111111111111111111111111111+);
+    int n;
+    scanf("%d", &n);
+    printf("%d\n", getprime(n));
 }

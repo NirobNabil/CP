@@ -1,3 +1,13 @@
+void print_128(__int128 x) {
+    if (x < 0) {
+        putchar('-');
+        x = -x;
+    }
+    if (x > 9) print_128(x / 10);
+    putchar(x % 10 + '0');
+}
+
+
 #define MAX(a,b) ((a>b)?a:b)
 #define max 10000
 

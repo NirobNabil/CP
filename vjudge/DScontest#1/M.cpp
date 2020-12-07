@@ -42,15 +42,6 @@ int main(){
 			adj[y][x]=1;
 		}			
 		dfs(1, 0);
-		// for(auto i:below) {
-		// 	printf("%d,%d - ", i.X, i.Y);
-		// }
-		// printf("\n");
-		// for(auto i:centeroidness) {
-		// 	printf("%d - ", i.X);
-		// 	for(auto ix:i.Y) printf("%d ", ix);
-		// 	printf("\n");
-		// }
 		vector<int> g = centeroidness.begin() -> Y;
 		for(auto i:adj[g[0]]) {
 			if(i.X==parent[g[0]] && g.size()!=1) continue;
