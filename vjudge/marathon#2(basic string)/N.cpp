@@ -39,32 +39,24 @@ void parr(T arr) {
 	printf("\n");
 }
 
-int chksubstr(string a, string b) {
-	int ix=0;
-	for(int i=0; i<a.length() && ix<b.length(); i++) {
-		if(a[i]==b[ix]) ix++;
-	} 
-	return ix==b.length();
-}
-
-int chkswap(string a, string b) {
-	for(int i=0; i<b.length(); i++) {
-		// cout << a << endl;
-		if(a.find(b[i])!=string::npos) {
-			a.erase(a.find(b[i]),1);
-		}else return 0;
-		// cout << a << endl;
-	} 
-	return 1;
-}
-
 int main(){
-	string s1,s2;
-	cin >> s1 >> s2;
-	if(chksubstr(s1,s2)) {
-		printf("automaton\n");
-	}else if(chkswap(s1,s2)) {
-		if(s1.length()==s2.length()) printf("array\n");
-		else printf("both\n");
-	}else printf("need tree\n");
+	string s;
+	cin >> s;
+	int i=0;
+	while(s[i]=='W' && s[i+1]=='U' && s[i+2]=='B') {
+		// printf("%c\n", s[i]);
+		s.erase(i,3);
+	}
+	for(i=0; i<s.length(); i++) {
+		// printf("%c\n", s[i]);
+		if(s[i]=='W' && s[i+1]=='U' && s[i+2]=='B') {
+			while(s[i]=='W' && s[i+1]=='U' && s[i+2]=='B') {
+				// printf("%c\n", s[i]);
+				s.erase(i,3);
+			} 
+			s.insert(i, " ");
+			i--;
+		}
+	} 
+	cout << s << "\n";
 }

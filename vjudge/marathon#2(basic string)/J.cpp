@@ -39,32 +39,38 @@ void parr(T arr) {
 	printf("\n");
 }
 
-int chksubstr(string a, string b) {
-	int ix=0;
-	for(int i=0; i<a.length() && ix<b.length(); i++) {
-		if(a[i]==b[ix]) ix++;
-	} 
-	return ix==b.length();
-}
-
-int chkswap(string a, string b) {
-	for(int i=0; i<b.length(); i++) {
-		// cout << a << endl;
-		if(a.find(b[i])!=string::npos) {
-			a.erase(a.find(b[i]),1);
-		}else return 0;
-		// cout << a << endl;
-	} 
-	return 1;
-}
+unordered_map<char,char> c = {
+	{'A','A'},
+	{'b','d'},
+	{'d','b'},
+	{'H','H'},
+	{'I','I'},
+	{'M','M'},
+	{'o','o'},
+	{'O','O'},
+	{'p','q'},
+	{'q','p'},
+	{'T','T'},
+	{'U','U'},
+	{'V','V'},
+	{'v','v'},
+	{'W','W'},
+	{'w','w'},
+	{'X','X'},
+	{'x','x'},
+	{'Y','Y'},
+};
 
 int main(){
-	string s1,s2;
-	cin >> s1 >> s2;
-	if(chksubstr(s1,s2)) {
-		printf("automaton\n");
-	}else if(chkswap(s1,s2)) {
-		if(s1.length()==s2.length()) printf("array\n");
-		else printf("both\n");
-	}else printf("need tree\n");
+	string s;
+	cin >> s;
+	for(int ix=0, iy=s.length()-1; ix<=iy; ix++,iy--) {
+		if(c[s[ix]]!=s[iy]) {
+			// printf("%c %c\n", s[ix], s[iy] );
+			printf("NIE\n");
+			return 0;
+		}
+	} 
+	printf("TAK\n");
+	return 0;
 }

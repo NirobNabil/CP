@@ -39,32 +39,39 @@ void parr(T arr) {
 	printf("\n");
 }
 
-int chksubstr(string a, string b) {
-	int ix=0;
-	for(int i=0; i<a.length() && ix<b.length(); i++) {
-		if(a[i]==b[ix]) ix++;
-	} 
-	return ix==b.length();
-}
-
-int chkswap(string a, string b) {
-	for(int i=0; i<b.length(); i++) {
-		// cout << a << endl;
-		if(a.find(b[i])!=string::npos) {
-			a.erase(a.find(b[i]),1);
-		}else return 0;
-		// cout << a << endl;
-	} 
-	return 1;
-}
+string v = "aeiouy";
+stack<pair<char,int> > g;
 
 int main(){
-	string s1,s2;
-	cin >> s1 >> s2;
-	if(chksubstr(s1,s2)) {
-		printf("automaton\n");
-	}else if(chkswap(s1,s2)) {
-		if(s1.length()==s2.length()) printf("array\n");
-		else printf("both\n");
-	}else printf("need tree\n");
+	int n;
+	string s;
+	cin >> n >> s;
+	for(int i=0; i<s.length(); i++) {
+		// printf("%c", s[i]);
+		if(g.size() && s[i]!=g.top().X) {
+			// printf("%d\n", g.size());
+			if(g.size()==2 && (g.top().X=='e' || g.top().X=='o')) {
+				while(g.size()) g.pop();
+			}
+			else {
+				while(g.size()>1) {
+					s.erase(g.top().Y,1);
+					g.pop();
+					i--;
+				}
+				g.pop();
+			}
+		} 
+		if(v.find(s[i])!=string::npos) g.push({s[i],i});  
+		// parr(g);
+	} 
+	// printf("\n");
+	if(g.size()==2 && (g.top().X=='e' || g.top().X=='o')) n=n;
+	else {
+		while(g.size()>1) {
+			s.erase(g.top().Y,1);
+			g.pop();
+		}
+	}
+	cout << s << "\n";
 }

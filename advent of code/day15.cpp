@@ -39,32 +39,16 @@ void parr(T arr) {
 	printf("\n");
 }
 
-int chksubstr(string a, string b) {
-	int ix=0;
-	for(int i=0; i<a.length() && ix<b.length(); i++) {
-		if(a[i]==b[ix]) ix++;
-	} 
-	return ix==b.length();
-}
+#define ABC 10
+#define XYZ ABC-1
 
-int chkswap(string a, string b) {
-	for(int i=0; i<b.length(); i++) {
-		// cout << a << endl;
-		if(a.find(b[i])!=string::npos) {
-			a.erase(a.find(b[i]),1);
-		}else return 0;
-		// cout << a << endl;
-	} 
-	return 1;
-}
+struct S {
+	char *S;
+};
 
 int main(){
-	string s1,s2;
-	cin >> s1 >> s2;
-	if(chksubstr(s1,s2)) {
-		printf("automaton\n");
-	}else if(chkswap(s1,s2)) {
-		if(s1.length()==s2.length()) printf("array\n");
-		else printf("both\n");
-	}else printf("need tree\n");
+	struct S *S = (struct S *) malloc(sizeof(struct s));
+	S->S = "abc";
+	printf("%d\n", strlen(S,S+2) + S->S[3]);
+	free(S)
 }

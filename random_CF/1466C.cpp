@@ -39,32 +39,37 @@ void parr(T arr) {
 	printf("\n");
 }
 
-int chksubstr(string a, string b) {
-	int ix=0;
-	for(int i=0; i<a.length() && ix<b.length(); i++) {
-		if(a[i]==b[ix]) ix++;
-	} 
-	return ix==b.length();
-}
-
-int chkswap(string a, string b) {
-	for(int i=0; i<b.length(); i++) {
-		// cout << a << endl;
-		if(a.find(b[i])!=string::npos) {
-			a.erase(a.find(b[i]),1);
-		}else return 0;
-		// cout << a << endl;
-	} 
-	return 1;
-}
+string s;
 
 int main(){
-	string s1,s2;
-	cin >> s1 >> s2;
-	if(chksubstr(s1,s2)) {
-		printf("automaton\n");
-	}else if(chkswap(s1,s2)) {
-		if(s1.length()==s2.length()) printf("array\n");
-		else printf("both\n");
-	}else printf("need tree\n");
+	int ans, i, ix, t, n, a[S1];
+	stack<int> g;
+	scanf("%d", &t);
+	while(t--){
+		ans=0;
+		cin >> s;
+		if(s.length()<3) {
+			if(s.length()==2 && s[0] == s[1]) ans=1;
+		}else{
+			for(int i=0; i<s.length()-2; i++) {
+				// printf("%d\n", i);
+				if(s[i]==s[i+1] && s[i+1]==s[i+2]) {
+					for(ix=i; ix<s.length()-1 && s[ix]==s[ix+1]; ix++) {
+						if((ix+1-i)%3==1 || (ix+1-i)%3==2) g.push(ix+1);
+					}
+					// printf("%d\n", i);
+					while(!g.empty()) s[g.top()]='*', g.pop();
+					i=ix-1;
+
+				}
+				else if(s[i]==s[i+1]) s[i+1]='*';
+				else if(s[i]==s[i+2]) s[i+2]='*';
+				else if(s[i+1]==s[i+2]) s[i+2]='*';
+				// else if(s[i]==s[i+1]) s[i]='*';
+			}
+		}
+		for(int i=0; i<s.length(); i++) { if(s[i]=='*') ans++; } 
+		printf("%d\n", ans);
+		// cout << s << "\n";
+	}
 }

@@ -39,32 +39,19 @@ void parr(T arr) {
 	printf("\n");
 }
 
-int chksubstr(string a, string b) {
-	int ix=0;
-	for(int i=0; i<a.length() && ix<b.length(); i++) {
-		if(a[i]==b[ix]) ix++;
-	} 
-	return ix==b.length();
-}
-
-int chkswap(string a, string b) {
-	for(int i=0; i<b.length(); i++) {
-		// cout << a << endl;
-		if(a.find(b[i])!=string::npos) {
-			a.erase(a.find(b[i]),1);
-		}else return 0;
-		// cout << a << endl;
-	} 
-	return 1;
-}
-
 int main(){
-	string s1,s2;
-	cin >> s1 >> s2;
-	if(chksubstr(s1,s2)) {
-		printf("automaton\n");
-	}else if(chkswap(s1,s2)) {
-		if(s1.length()==s2.length()) printf("array\n");
-		else printf("both\n");
-	}else printf("need tree\n");
+	int i, ix, t, n, a[S1];
+	double x1,x2,r1,x2,y2,r2,a,b,c;
+	scanf("%lf %lf %lf", &x1, &y1, &r1);
+	scanf("%lf %lf %lf", &x2, &y2, &r2);
+	if(x1==x2 && y1==y2 && r1==r2) printf("THE CIRCLES ARE THE SAME\n");
+	else if(-2.0*(y1-y2)==0.0) printf("NO INTERSECTION\n");
+	else {
+		x^2-2xa+a^2+y^2-2yb+b^2-r^2
+		x^2+x(-2a)+
+		y = -\frac{r1*r1-r2*r2-x1*x1+x2*x2-y1*y1+y2*y2+2ax-2cx}{2\left(b-d\right)}
+		a = 1;
+		b = -2.0*x1;
+		c = a*a + 		
+	} 
 }

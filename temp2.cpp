@@ -5,53 +5,51 @@ using namespace std;
 #define Y second
 #define A begin
 #define B end
-#define S1 100000
+#define S1 100
 #define rep(i, begin, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
 
-void pv(){ printf("\n"); }
+vector<vector<ll> > grid(100);
+vector<pair<ll,ll> > vi;
+vector<pair<ll,ll> > vv;
+vector<ll > vm;
 
-template<typename T, typename... Args>
-void pv(T a, Args... args) {
-    #ifndef DDEBUG
-    return;
-    #endif
-    std::cout << a << " "; pv(args...);
+ll chk(ll i, bool d) {
+    if(d ? i==vv.size()-1 : i==0) return vm[i];
+    ll nxt = d ? chk(i+1,d) : chk(i-1,d);
+    if(vm[i] > vv[i].X+nxt) {
+        vm[i] = vv[i].X+nxt;
+    }
+    return vm[i];
 }
 
-#define error(args...) { string _s = #args; replace(_s.begin(), _s.end(), ',', ' '); stringstream _ss(_s); istream_iterator<string> _it(_ss); err(_it, args); }
-
-void err(istream_iterator<string> it) {}
-template<typename T, typename... Args>
-void err(istream_iterator<string> it, T a, Args... args) {
-    #ifndef DDEBUG
-    return;
-    #endif
-    cout << *it << " = " << a << endl;
-    err(++it, args...);
-}
-
-template<typename T>
-void parr(T arr) {
-    #ifndef DDDEBUG
-    return;
-    #endif
-    for(auto i:arr) cout << i << " ";
-    printf("\n");
-}
-
-unordered_map<int, unordered_map<int,int> > g;
+ll dfs()
 
 int main(){
-    std::vector<int> v = {2,3,4,5};
-    for(int i=0; i<v.size()-1; i++) g[v[i]][v[i+1]]++;
-    while(next_permutation(v.begin(), v.end())) {
-        // for(auto i:v) printf("%d ", i);
-        for(int i=0; i<v.size()-1; i++) g[v[i]][v[i+1]]++;
-        // printf("\n");
+    ll i, ix, t, n, a[S1];
+    scanf("%lld", &n);
+    for(int i=0; i<n; i++) {
+        for(int ix=0; ix<n; ix++) {
+            scanf("%lld,", &t);
+            grid[ix].push_back(t);
+        } 
     }
-    for(auto i:g) {
-        for(auto ix:i.Y) {
-            printf("%d-%d = %d\n", i.X, ix.X, ix.Y);
-        }
+
+    // for(int i=0; i<n; i++) {
+    //  for(int ix=0; ix<n; ix++) {
+    //      printf("%lld ", grid[ix][i]);
+    //  } 
+    //  printf("\n");
+    // }
+    // printf("\n");
+    
+
+
+    // printf("\n");
+    for(int i=0; i<n; i++) {
+        for(int ix=0; ix<n; ix++) {
+            printf("%lld ", grid[ix][i]);
+        } 
+        printf("\n");
     }
+    printf("%lld\n", grid[0][0]);
 }

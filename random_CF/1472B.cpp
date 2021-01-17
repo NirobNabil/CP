@@ -39,32 +39,35 @@ void parr(T arr) {
 	printf("\n");
 }
 
-int chksubstr(string a, string b) {
-	int ix=0;
-	for(int i=0; i<a.length() && ix<b.length(); i++) {
-		if(a[i]==b[ix]) ix++;
-	} 
-	return ix==b.length();
-}
-
-int chkswap(string a, string b) {
-	for(int i=0; i<b.length(); i++) {
-		// cout << a << endl;
-		if(a.find(b[i])!=string::npos) {
-			a.erase(a.find(b[i]),1);
-		}else return 0;
-		// cout << a << endl;
-	} 
-	return 1;
-}
+int _1s=0, _2s=0;
 
 int main(){
-	string s1,s2;
-	cin >> s1 >> s2;
-	if(chksubstr(s1,s2)) {
-		printf("automaton\n");
-	}else if(chkswap(s1,s2)) {
-		if(s1.length()==s2.length()) printf("array\n");
-		else printf("both\n");
-	}else printf("need tree\n");
+	int i, ix, t, n, a[S1];
+	scanf("%d", &t);
+	while(t--){
+		_1s=0, _2s=0;
+		bool found=false;
+		scanf("%d", &n);
+		rep(i, 0, n) {
+			scanf("%d", &ix);
+			if(ix==1) _1s++; else _2s++;
+		}
+		int ttl = _1s+_2s*2;
+		if(ttl%2==1) {
+			printf("NO\n");
+			continue;
+		}else {
+			int xx=ttl/2, t_1s, t_2s, i=0;
+			do{
+				t_1s = _1s-(xx-i*2);
+				t_2s = _2s-i;
+				// printf("%d %d %d\n", t_1s, t_2s, xx);
+				if( t_1s>=0 && t_1s<=_1s && t_1s+t_2s*2==xx) {
+					printf("YES\n");
+					found=true;
+				}
+			}while(++i<=_2s && !found);
+		}
+		if(found==false)printf("NO\n");
+	}
 }

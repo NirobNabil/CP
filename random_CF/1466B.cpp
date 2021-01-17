@@ -39,32 +39,24 @@ void parr(T arr) {
 	printf("\n");
 }
 
-int chksubstr(string a, string b) {
-	int ix=0;
-	for(int i=0; i<a.length() && ix<b.length(); i++) {
-		if(a[i]==b[ix]) ix++;
-	} 
-	return ix==b.length();
-}
-
-int chkswap(string a, string b) {
-	for(int i=0; i<b.length(); i++) {
-		// cout << a << endl;
-		if(a.find(b[i])!=string::npos) {
-			a.erase(a.find(b[i]),1);
-		}else return 0;
-		// cout << a << endl;
-	} 
-	return 1;
-}
-
 int main(){
-	string s1,s2;
-	cin >> s1 >> s2;
-	if(chksubstr(s1,s2)) {
-		printf("automaton\n");
-	}else if(chkswap(s1,s2)) {
-		if(s1.length()==s2.length()) printf("array\n");
-		else printf("both\n");
-	}else printf("need tree\n");
+	int i, ix, t, n, a[S1], ex, tt;
+	map<int,int> b;
+	scanf("%d", &t);
+	while(t--){
+		ex=0;
+		b.clear();
+		scanf("%d", &n);
+		rep(i, 0, n) scanf("%d", &a[i]);
+		for(int i=0; i<n; i++) b[a[i]]++;
+		for(auto i=b.rbegin(); i!=b.rend(); i++) {
+			tt = (*i).X;
+			// printf("%d %d\n", tt+1, b.find(tt+1)==b.end() || b[tt+1]==0);
+			if(b.find(tt+1)==b.end()) b[tt]--, ex++;
+			else if(b[tt+1]==0) b[tt]--, b[tt+1]++;
+		} 
+		for(auto i:b) if(i.Y==0) ex--;
+		// printf("\n");
+		printf("%d\n", b.size()+ex);
+	}
 }

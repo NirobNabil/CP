@@ -39,32 +39,42 @@ void parr(T arr) {
 	printf("\n");
 }
 
-int chksubstr(string a, string b) {
-	int ix=0;
-	for(int i=0; i<a.length() && ix<b.length(); i++) {
-		if(a[i]==b[ix]) ix++;
-	} 
-	return ix==b.length();
+double dh, dl, dr, k, x, y, u, v, p, q;
+
+double check(double x) {
+	return sqrt( dh*dh + (dr-x)*(dr-x) ) + sqrt( dl*dl + x*x )*k;
 }
 
-int chkswap(string a, string b) {
-	for(int i=0; i<b.length(); i++) {
-		// cout << a << endl;
-		if(a.find(b[i])!=string::npos) {
-			a.erase(a.find(b[i]),1);
-		}else return 0;
-		// cout << a << endl;
-	} 
-	return 1;
+double check2(double x) {
+	return sqrt( dh*dh + (dr-x)*(dr-x) ) + sqrt( dl*dl + x*x );
 }
 
 int main(){
-	string s1,s2;
-	cin >> s1 >> s2;
-	if(chksubstr(s1,s2)) {
-		printf("automaton\n");
-	}else if(chkswap(s1,s2)) {
-		if(s1.length()==s2.length()) printf("array\n");
-		else printf("both\n");
-	}else printf("need tree\n");
+	int i, ix, t, n, a[S1];
+	while(1){
+		scanf("%lf", &dh);
+		scanf("%lf", &dl);
+		scanf("%lf", &dr);
+		scanf("%lf", &k);
+		if(dh==0.0 && dl==0.0 && dr==0.0 && k==0.0) break;
+		double hi=dr, lo=0, mid;
+		// int xx = 200;
+		while(trunc(100.0*hi) != trunc(100.0*lo)) {
+			// xx--;
+			// mid = (hi+lo)/2.0;
+			x = check(hi-(hi-lo)/3.0);
+			y = check(lo+(hi-lo)/3.0);
+			// printf("%.2lf %.2lf\n", trunc(100.0*lo), trunc(100.0*hi));
+			// printf("%lf %lf\n", hi-(hi-lo)/3.0, x);
+			// printf("%lf %.15lf\n", lo+(hi-lo)/3.0, y);
+			if(x <= y) 
+				lo = lo+(hi-lo)/3.0;
+			if(y <= x)
+				hi = hi-(hi-lo)/3.0;
+			// printf("\n");
+		}
+		// printf("%d\n", xx);
+		// printf("%lf %lf %lf\n", mid, lo, hi);
+		printf("%.2lf\n", check2(lo));
+	}
 }

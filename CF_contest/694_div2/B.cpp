@@ -32,39 +32,36 @@ void err(istream_iterator<string> it, T a, Args... args) {
 
 template<typename T>
 void parr(T arr) {
-	#ifndef DDDEBUG
-	return;
-	#endif
-	for(auto i:arr) cout << i << " ";
+	// #ifndef DDDEBUG
+	// return;
+	// #endif
+	for(auto i:arr) cout << i.X << " " << i.Y << "\n";
 	printf("\n");
 }
 
-int chksubstr(string a, string b) {
-	int ix=0;
-	for(int i=0; i<a.length() && ix<b.length(); i++) {
-		if(a[i]==b[ix]) ix++;
-	} 
-	return ix==b.length();
-}
-
-int chkswap(string a, string b) {
-	for(int i=0; i<b.length(); i++) {
-		// cout << a << endl;
-		if(a.find(b[i])!=string::npos) {
-			a.erase(a.find(b[i]),1);
-		}else return 0;
-		// cout << a << endl;
-	} 
-	return 1;
-}
-
 int main(){
-	string s1,s2;
-	cin >> s1 >> s2;
-	if(chksubstr(s1,s2)) {
-		printf("automaton\n");
-	}else if(chkswap(s1,s2)) {
-		if(s1.length()==s2.length()) printf("array\n");
-		else printf("both\n");
-	}else printf("need tree\n");
+	int i, ix, t, n, x, a[S1];
+	scanf("%d", &t);
+	while(t--){
+		scanf("%d %d", &n, &x);
+		rep(i, 0, n) scanf("%d", &a[i]);
+		unsigned long long int ans=0;
+		deque<pair<long long int,long long int> > q;
+		for(int i=0; i<n; i++) q.push_back({a[i],1}); 
+		while(!q.empty()) {
+			if(q.front().X%x==0) {
+				q.push_back({q.front().X/x,x*q.front().Y});
+				// printf("%d %d\n", q.front().X, q.front().Y);
+				// parr(q);
+				ans += q.front().X * q.front().Y;
+				q.pop_front();
+			}else break; 
+		}
+		while(!q.empty()) {
+			// printf("%d %d\n", q.front().X, q.front().Y);
+			ans+=q.front().X * q.front().Y; 
+			q.pop_front();
+		}
+		cout << ans << "\n";
+	}
 }
