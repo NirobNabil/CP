@@ -11,10 +11,10 @@ int main(){
 	int t;
 	cin >> t;
 	while(t--){
-		int n, q;
+		int n, q, z;
 		cin >> n >> q;
-		bool bits[n+1] = {0};
-		while(q--){
+		biset<n+1>;
+		while(q--){ 
 			char c;
 			int i, j;
 			cin >> c >> i;

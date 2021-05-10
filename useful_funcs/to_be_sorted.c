@@ -44,20 +44,16 @@ int multiply(int n, long int big[600]){
 }
 
 int occurences[10001] = {0};
-void prime_facts(int n){
-    int occurences_temp[10001] = {0};
+int prime_facts(int n){
     int i=0;
-    for(; i<10001 && primes[i]!=-1 && n; i++){
+    for(; i<10001 && primes[i]!=-1 && n>1; i++){
         while(n%primes[i] == 0 && n>1){
-            occurences_temp[primes[i]]++;
+            occurences[primes[i]]++;
             n /= primes[i];
         }
     }
-    for(i=0; i<10001 && primes[i]!=-1 && n; i++){
-        occurences[primes[i]] = MAX(occurences[primes[i]], occurences_temp[primes[i]]);
-    }
-}   
-
+    return i;
+}  
 void print_big(){
     int i;
     for(i=len-1; i; i--) if(big[i-1]!=0) break;

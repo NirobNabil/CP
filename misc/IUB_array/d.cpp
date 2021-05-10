@@ -34,6 +34,6 @@ int main(){
 	string s;
 	cout << "Enter the string: ";
 	cin >> s;
-	char *a = chr(s);	
+	char *a = chr(s);
 	for(int i=0; i<(int)s.size(); i++) cout << a[i];
 }

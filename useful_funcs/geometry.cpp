@@ -1,3 +1,8 @@
+// geomtry using complex numbers
+// https://codeforces.com/blog/entry/22175
+// https://community.topcoder.com/tc?module=Static&d1=features&d2=091806
+
+
 #define point pair<double,double>
 
 //https://www.mathopenref.com/heronsformula.html

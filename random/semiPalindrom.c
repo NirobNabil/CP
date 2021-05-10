@@ -2,7 +2,7 @@
 #include <string.h>
 
 int main(){
-	char *str;
+	char str[20];
 	scanf("%s", str);
 	int len = strlen(str);
 	for(int i=0; i<len/2; i++){

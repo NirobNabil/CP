@@ -6,18 +6,22 @@ long long int getSq(long long int n){
 	return n*n;
 }
 
+void numspi(int x, int y){
+	long long int c=0, g=y, h=x;
+	if(x>y) c=1, g=x, h=y;
+	if(g%2==c){
+		printf("%lld ", getSq(g)-h+1);
+	}else {
+		printf("%lld ", getSq(g-1)+h);
+	}
+}
+
 int main(){
 	int t;
-	scanf("%d", &t);
-	while(t--){
-		int x,y;
-		scanf("%d %d", &y, &x);
-		long long int c=0, g=y, h=x;
-		if(x>y) c=1, g=x, h=y;
-		if(g%2==c){
-			printf("%lld\n", getSq(g)-h+1);
-		}else {
-			printf("%lld\n", getSq(g-1)+h);
-		}
+	for(int i=0; i<5; i++) {
+		for(int j=0; j<5; j++) {
+			numspi(i,j);
+		} 
+		printf("\n");
 	}
 }
