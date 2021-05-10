@@ -1,0 +1,6 @@
+{
+	"cmd" : ["g++ -std=c++03 -Wall -Wshadow -D DDEBUG -D_GLIBCXX_DEBUG -fsanitize=address -fsanitize=undefined $file_name -o $file_base_name && ./$file_base_name && ./$file_base_name</home/twin_n/workspace/cp/inputf.in>/home/twin_n/workspace/cp/outputf.in"], 
+	"selector" : "source.c source.cpp",
+	"shell": true,
+	"working_dir" : "$file_path"
+}

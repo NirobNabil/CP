@@ -1,0 +1,46 @@
+<snippet>
+	<content><![CDATA[
+map<int, int> in_deg;
+
+vector<int> top_sort(map<int, int> in_deg, map<int, map<int,int> > adj){
+	priority_queue<int, vector<int>, greater<int> > q;
+	int visited[200009]={0};
+	vector<int> ans;
+	int v, ix, gg, xd=20;
+	while(in_deg.size() && xd--) {
+		gg=INT_MAX;
+		std::vector<int> to_erase;
+		for(auto i:in_deg) {
+			// printf("%d ", i.first);
+			if(i.second==0) {
+				q.push(i.first); to_erase.push_back(i.first); gg=0; visited[i.first]=1;
+			}
+		}
+		for(auto i:to_erase) in_deg.erase(i);
+		// printf("\n");
+		if(gg==INT_MAX) {
+			std::vector<int> lll;
+			lll.push_back(-1);
+			return lll;
+		}
+		while(!q.empty()) {
+			v = q.top();
+			q.pop();
+			ans.push_back(v);
+			for(auto i:adj[v]) {
+				ix = i.first;
+				if(!visited[ix]) in_deg[ix]--;
+				if(!in_deg[ix] && !visited[ix]) q.push(ix), visited[ix]=1, in_deg.erase(ix);
+			}
+		}
+	}
+	return ans;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>toposort</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+	<description>boilerplate with testcase</description>
+</snippet>

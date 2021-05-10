@@ -1,0 +1,30 @@
+<snippet>
+	<content><![CDATA[
+priority_queue<item, vector<item>, greater<item> > q;
+q.push({0,1});
+d[1].insert(0);
+while(!q.empty()){
+	g = q.top();
+	u = g.Y;
+	pc = g.X;
+	q.pop();
+	for(auto j:adj[u]) {
+		v = j.X;
+		for(auto c:adj[u][v]) {
+			if( d.find(v)==d.end() || d[v].size()<2 || 
+				(pc+c < *d[v].B && pc+c != *d[v].B && pc+c != *d[v].A) ) {
+				if(ig==gg) printf("g - %d %d %d %d %d\n", q.size(), u, v, c, pc);
+				if(d[v].size() > 1) d[v].erase(++d[v].A);
+				d[v].insert(pc+c);
+				q.push({pc+c, v});
+			} 					
+		}
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>djikstra</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+	<description>boilerplate with testcase</description>
+</snippet>

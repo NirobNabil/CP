@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[for(auto ${1:i}:${5:a}) $0]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>fora</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

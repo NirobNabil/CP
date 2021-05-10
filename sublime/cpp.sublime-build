@@ -1,0 +1,9 @@
+{
+	"windows":
+	{
+		"cmd": ["g++", "$file_name","-o", "${file_base_name}.exe", "-lm", "-Wall", "&", "${file_base_name}.exe", "<", "C:\workspace\cp\input.txt", ">", "C:\workspace\cp\output.txt" ]
+	},
+	"selector": "source.c, source.c++",
+	"shell": true,
+	"working_dir": "${file_path}"
+}

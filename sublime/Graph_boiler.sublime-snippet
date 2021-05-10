@@ -1,0 +1,34 @@
+<snippet>
+	<content><![CDATA[
+#include "bits/stdc++.h"
+using namespace std;
+#define ll long long int
+#define PUSH(x,l) if(!visited[x]) { q.push_back({x,l}); visited[x]=1; }
+#define item pair<pair<int,int>,int>
+#define X first
+#define Y second
+int k, n, m, x, y, p, l;
+map<int, map<int,int> > adj;
+map<int, int> parent;
+
+int main(){
+	int t;
+	scanf("%d", &t);
+	while(t--){
+		adj.clear();
+		parent.clear();
+		scanf("%d", &n);
+		for(int i=1; i<n; i++) {
+			scanf("%d %d", &x, &y);
+			adj[x][y]=1;
+			adj[y][x]=1;
+		}		
+	}	
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cf</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+	<description>boilerplate with testcase</description>
+</snippet>

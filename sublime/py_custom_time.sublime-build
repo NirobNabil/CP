@@ -1,0 +1,9 @@
+{
+	"windows":
+	{
+		"cmd": "start python $file_name & ping 192.0.2.2 -n 1 -w 2000 > NUL & taskkill /IM python.exe /F"
+	},
+	"selector": "source.py",
+	"shell": true,
+	"working_dir": "${file_path}"
+}

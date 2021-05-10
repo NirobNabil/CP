@@ -1,0 +1,7 @@
+{
+	"cmd" : ["ulimit -s 262144 && g++ -std=gnu++11 $file_name -o $file_base_name -fsanitize=address -fsanitize=undefined -D MONKE && timeout 3s ./$file_base_name < /home/twin_n/workspace/cp/inputf.in 2>&1 | head -n 5000000 > /home/twin_n/workspace/cp/outputf.in"], 
+	"selector" : "source.c source.cpp",
+	"shell": true,
+	"working_dir" : "$filepath"
+}
+ 
