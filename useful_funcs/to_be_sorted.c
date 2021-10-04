@@ -54,6 +54,31 @@ int prime_facts(int n){
     }
     return i;
 }  
+map<int,int> primes;
+void prime_factors(map<int,int> &occurences, int n)
+{
+    while (n % 2 == 0)
+    {
+        primes[2] = 1;
+        occurences[2]++;
+        n = n/2;
+    }
+ 
+    for (int i = 3; i <= sqrt(n); i = i + 2)
+    {
+        while (n % i == 0)
+        {
+            primes[i] = 1;
+            occurences[i]++;
+            n = n/i;
+        }
+    }
+ 
+    if (n > 2) {
+        primes[n] = 1;
+        occurences[n]++;
+    }
+}
 void print_big(){
     int i;
     for(i=len-1; i; i--) if(big[i-1]!=0) break;
