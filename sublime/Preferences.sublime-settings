@@ -1,0 +1,9 @@
+{
+	"theme": "Monokai Pro.sublime-theme",
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+	"color_scheme": "Packages/1337 Color Scheme/1337.tmTheme",
+	"font_size": 12,
+}

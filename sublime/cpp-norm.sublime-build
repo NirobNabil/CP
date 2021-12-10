@@ -1,0 +1,9 @@
+// Change the path as needed eg. path to Script.ps1 on your PC.
+// Change only C://Users/USERNAME/Script.ps1 to your desired path, leave the quotation mark (' ') and other things as they are. MAKE SURE the path uses "forward slash" ('/') instead of backward ('\')
+
+{
+  "shell_cmd" : "powershell -ExecutionPolicy Bypass \"& 'F:/dev_apps/Sublime Text 4/Data/Packages/User/script2.ps1' -file '$file' -PATH '$file_path'\"", 
+  "selector" : "source.c,source.cpp,source.c++",
+  "shell": true,
+  "working_dir" : "$file_path"
+}

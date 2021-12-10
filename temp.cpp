@@ -46,9 +46,33 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #endif
 
 
-
 int main(){
-    string a = "";
-    string b = "asd";
-    debug(INT_MAX);
+    int i, ix, t, n, m, k, p, e, q, gg, x, y, w;
+    scanf("%d", &t);
+    while(t--){
+        scanf("%d %d", &n, &e);
+        map<int,map<int,int> > d;
+        for(int i=0; i<e; i++) {
+            scanf("%d %d %d", &x, &y, &w);
+            d[x][y] = w;
+            d[y][x] = w;
+        }
+
+        vector<int> dans(n);
+        for (int k = 0; k < n; ++k) {
+            for (int i = 0; i < n; ++i) {
+                for (int j = 0; j < n; ++j) {
+                    if (d[i][k] < INT_MAX && d[k][j] < INT_MAX) {
+                        dans[i] -= d[i][j];
+                        d[i][j] = min(d[i][j], d[i][k] + d[k][j]); 
+                        dans[i] += d[i][j];
+                    }
+                }
+            }
+        }
+
+        debug("gg");
+
+        printf("%d\n", (int)(min_element(dans.A(), dans.B()) - dans.A())+1);     
+    }
 }
