@@ -45,34 +45,63 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #define debug(x...)
 #endif
 
+#define MAXN 1000
+class Stack {
+    public:
+        int st[MAXN];
+        int tp = -1;
+
+        void push( int x ) {
+            st[++tp] = x;
+        }
+
+        void pop() {
+            tp = max(-1, tp-1);
+        }   
+
+        int top() {
+            if( tp==-1 ) return -1;
+            return st[tp];
+        }
+
+        int size() {
+            return tp+1;
+        }
+} pegA, pegB, pegC; 
+
+Stack pegs[3] = [&pegA, &pegB, &pegC];
+
+void init( int n ) {
+    for(int i=n; i>0; i++) {
+        pegA.push(i);
+    }
+}
+
+void print() {
+    int as = pegA.size(), bs = pegB.size(), cs = pegC.size();
+    for(int i=max({as,bs,cs}); i>0; i--) {
+        if( i < as ) printf("%d ", &pegA.st[i]);
+        else printf("  ");
+
+        if( i < bs ) printf("%d ", &pegB.st[i]);
+        else printf("  ");
+
+        if( i < cs ) printf("%d ", &(pegC.st[i]));
+        else printf("  ");
+    } 
+}
+
+void move_disk( char a, char b ) {
+    int x = a-'A', y = b - 'A';
+    if( pegs[x].top() > pegs[y].top() && pegs[y].top() == -1 ) {
+        printf("Illegal Move\n");
+        return;
+    }
+    pegs[y].push(pegs[x].top());
+    pegs[x].pop();
+}
 
 int main(){
-    int i, ix, t, n, m, k, p, e, q, gg, x, y, w;
-    scanf("%d", &t);
-    while(t--){
-        scanf("%d %d", &n, &e);
-        map<int,map<int,int> > d;
-        for(int i=0; i<e; i++) {
-            scanf("%d %d %d", &x, &y, &w);
-            d[x][y] = w;
-            d[y][x] = w;
-        }
-
-        vector<int> dans(n);
-        for (int k = 0; k < n; ++k) {
-            for (int i = 0; i < n; ++i) {
-                for (int j = 0; j < n; ++j) {
-                    if (d[i][k] < INT_MAX && d[k][j] < INT_MAX) {
-                        dans[i] -= d[i][j];
-                        d[i][j] = min(d[i][j], d[i][k] + d[k][j]); 
-                        dans[i] += d[i][j];
-                    }
-                }
-            }
-        }
-
-        debug("gg");
-
-        printf("%d\n", (int)(min_element(dans.A(), dans.B()) - dans.A())+1);     
-    }
+    init(5);
+    move_disk('A', 'B');
 }

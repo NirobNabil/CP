@@ -46,29 +46,13 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #endif
 
 
-// int qwe[10] = { [0...5] = 1 };
-
-
-
-int gg( const char* f, int n, ... ) {
-	va_list l;
-
-	va_start(l, n);
-	int s = 0;
-
-	for(int i=0; i<n; i++) 
-		s += va_arg( l, int );
-
-	va_end(l);
-	debug(f);
-	debug(s);
-
-	// printf("%s\n", f);
-
-	return s;
-}
 
 
 int main(){
-	printf("%d\n", gg( "ashdvgasvd", 4, 1,2,3,4 ));
-}
+	char *p;
+	p = (char*)malloc(103 * sizeof(char));
+	p[102] = 'c';
+	printf("%c", p[102]);
+}	
+
+
