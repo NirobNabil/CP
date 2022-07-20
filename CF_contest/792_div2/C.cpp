@@ -45,79 +45,56 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #define debug(x...)
 #endif
 
-const ll MOD = 1000000009;
 
-#define CEIL(a,b) ( (a)%(b) ? (a)/(b)+1 : (a)/(b) )
+map<int,map<int,int> > g;
+map<int, int> depth_node;
+int shortest_node;
+void dfs( int x, int p, int d) {
+	// debug(x, p, d);
+	if( g[x].size() <= 2 && ( x!=1 || g[x].size()==1 ) ) {
+		if( depth_node[d] && g[depth_node[d]].size()==1 ) return;
+		depth_node[d] = x;
+		return;
+	}
 
-
-ll bpow(ll a, ll b, ll m) {
-    a %= m;
-    ll r = 1;
-    while( b>0 ) {
-        if(b & 1) r = (r * a) % m;
-        a = (a * a)%m;
-        b >>= 1;
-    }
-    return r;
+	for( auto i:g[x] ) {
+		if( i.X == p ) continue;
+		dfs(i.X, x, d+1);
+	}
 }
 
-
-ll bdiv(ll a, ll b, ll m) {
-    // https://www.geeksforgeeks.org/fermats-little-theorem/
-    return (a%m) * bpow(b, m-2, m) % m;
-}
-
-
-ll fact[10009];
-ll bfact(ll a, ll m) {
-    // ll ans = 1;
-    // for(int i=1; i<=a; i++) {
-    //     ans = (ans * i) % m;
-    // }
-    return fact[a];
-}
-
-
-ll ncr(ll n, ll r, ll m) {
-    return bdiv(bfact(n, m), (bfact(r, m) * bfact(n-r, m)) % m, m);
-}
 
 
 int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-
-	fact[0] = 1;
-	for(int i=1; i<10009; i++) {
-		fact[i] = (fact[i-1] * (ll)i) % MOD;
-	} 
-
-	vector<int> dp(5009);
-	for(int i=2; i<=5000; i++) {
-		// for(int ix=1; ix<=i; ix++) {
-		// 	// debug(ix-1, i-ix);
-		// 	dp[i] += (dp[ix-1] * dp[i-ix]) % MOD;
-		// } 
-		// debug(bfact(2*n, MOD) / ( bfact(n+1, MOD) * bfact(n, MOD) ));
-		dp[i] = bdiv( bfact(2*i, MOD), ( bfact(i+1, MOD) * bfact(i, MOD) ), MOD );
-		// debug(i, dp[i]);
-	}
-
-	ll t, n;
+	int t, n, m, k, p, q, gg, x, y, z, pos;
 	cin >> t;
 	while(t--){
+		depth_node.clear();
+		g.clear();
 		cin >> n;
-		dp[0] = 1;
-		dp[1] = 1;
-    	
+		int i, j;
+		for(int x=0; x<n-1; x++) {
+	    	cin >> i >> j;
+	    	g[i][j] = 1;
+	    	g[j][i] = 1;
+	    	// debug(i,j,n);
+	    }
 
-    	ll ans = 0;
-    	for(int i=1; i<=n; i++) {
-    		ans += (dp[i]*ncr(n, i, MOD)) % MOD;
-    		ans %= MOD;
+    	dfs(1, 0, 1);
+
+    	int d = 1;
+    	for(; d<n; d++) {
+    		if( depth_node[d] ) {
+    			shortest_node = depth_node[d];
+    			break;
+    		}
     	}
+    	debug(shortest_node, d);
 
-    	cout << ans << "\n";
+    	// debug(depth_node);
+    	if( shortest_node == 1 ) cout << n-2 << "\n";
+    	else cout << n-d*2 + ( g[shortest_node].size() == 1 ? 1 : 0 ) << "\n";
 	}
 }
-Mariye_Kurisu

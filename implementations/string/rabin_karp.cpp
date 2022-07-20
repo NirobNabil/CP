@@ -2,7 +2,7 @@
 using namespace std;
 #define ll long long int
 #define vv vector<int>
-#define pp pair<int,int>
+#define pp pair<ll,ll>
 
 #define pb(x) push_back(x)
 #define in(x) insert(x)
@@ -45,79 +45,70 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #define debug(x...)
 #endif
 
-const ll MOD = 1000000009;
+const ll base[] = { 10, 10 };
+const ll primes[] = { 1000000000+7, 1000000000+9 };
+ll POW[2][1000] = { {1}, {1} };
 
-#define CEIL(a,b) ( (a)%(b) ? (a)/(b)+1 : (a)/(b) )
 
-
-ll bpow(ll a, ll b, ll m) {
-    a %= m;
-    ll r = 1;
-    while( b>0 ) {
-        if(b & 1) r = (r * a) % m;
-        a = (a * a)%m;
-        b >>= 1;
-    }
-    return r;
+pp get_hash(string s) {
+	
+	ll hash[2] = {0,0};
+	for(int i=0; i<s.length(); i++) 
+		for(int q=0; q<2; q++)  
+			hash[q] = ( hash[q] + (s[i]-'a'+1) * POW[q][s.length()-i-1] ) % primes[q];
+	
+	return {hash[0], hash[1]};
 }
 
 
-ll bdiv(ll a, ll b, ll m) {
-    // https://www.geeksforgeeks.org/fermats-little-theorem/
-    return (a%m) * bpow(b, m-2, m) % m;
+pp get_next_hash(string &s, int l, int r, pp hash, int sz) {
+	
+	ll t_hash[] = { hash.X, hash.Y };
+	for(int q=0; q<2; q++) {
+		t_hash[q] -= ( (s[l]-'a'+1) * POW[q][sz-1] ) % primes[q];
+		t_hash[q] = ( t_hash[q] * base[q] ) % primes[q];
+		t_hash[q] += (s[r+1]-'a'+1);
+	} 
+	
+	return {t_hash[0], t_hash[1]};
 }
 
-
-ll fact[10009];
-ll bfact(ll a, ll m) {
-    // ll ans = 1;
-    // for(int i=1; i<=a; i++) {
-    //     ans = (ans * i) % m;
-    // }
-    return fact[a];
+bool linear_match(string s1, string s2) {
+	// to be implemented
+	return true;
 }
-
-
-ll ncr(ll n, ll r, ll m) {
-    return bdiv(bfact(n, m), (bfact(r, m) * bfact(n-r, m)) % m, m);
-}
-
 
 int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	fact[0] = 1;
-	for(int i=1; i<10009; i++) {
-		fact[i] = (fact[i-1] * (ll)i) % MOD;
+	string t, s;
+	cin >> t >> s;
+
+	for(ll i=1; i<s.length(); i++) {
+		POW[0][i] = (POW[0][i-1]*base[0]) % primes[0];
+		POW[1][i] = (POW[1][i-1]*base[1]) % primes[1];
 	} 
 
-	vector<int> dp(5009);
-	for(int i=2; i<=5000; i++) {
-		// for(int ix=1; ix<=i; ix++) {
-		// 	// debug(ix-1, i-ix);
-		// 	dp[i] += (dp[ix-1] * dp[i-ix]) % MOD;
-		// } 
-		// debug(bfact(2*n, MOD) / ( bfact(n+1, MOD) * bfact(n, MOD) ));
-		dp[i] = bdiv( bfact(2*i, MOD), ( bfact(i+1, MOD) * bfact(i, MOD) ), MOD );
-		// debug(i, dp[i]);
-	}
 
-	ll t, n;
-	cin >> t;
-	while(t--){
-		cin >> n;
-		dp[0] = 1;
-		dp[1] = 1;
-    	
+	auto hash = get_hash(s);
 
-    	ll ans = 0;
-    	for(int i=1; i<=n; i++) {
-    		ans += (dp[i]*ncr(n, i, MOD)) % MOD;
-    		ans %= MOD;
-    	}
+	auto t_hash = get_hash(t.substr(0, s.length()));
+	int l = 0, r = s.length()-1;
+	
+	for(int i=0; i<t.length(); i++) {
+		if(	t_hash.X == hash.X 
+			&& t_hash.X == hash.X
+			&& linear_match(s, t.substr(i, s.length()))
+		) {
+			cout << "Match found at " << i << "\n";
+			return 0;
+		} else if(i != t.length()-1) {
+			t_hash = get_next_hash( t, l, r, t_hash, s.length() );
+		}
+		l++; r++;
+	} 
 
-    	cout << ans << "\n";
-	}
+	cout << "Match not found\n";
+
 }
-Mariye_Kurisu

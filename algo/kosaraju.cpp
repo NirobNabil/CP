@@ -45,79 +45,79 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #define debug(x...)
 #endif
 
-const ll MOD = 1000000009;
 
-#define CEIL(a,b) ( (a)%(b) ? (a)/(b)+1 : (a)/(b) )
-
-
-ll bpow(ll a, ll b, ll m) {
-    a %= m;
-    ll r = 1;
-    while( b>0 ) {
-        if(b & 1) r = (r * a) % m;
-        a = (a * a)%m;
-        b >>= 1;
-    }
-    return r;
+void reverse(map<int,map<int,int> > &g ) {
+	map<int, map<int, int> > tg;
+	for( auto i:g ) {
+		int u = i.X;
+		for( auto ix : i.Y ) {
+			int v = ix.X;
+			tg[v][u] = ix.Y;
+		}
+	}
+	g = tg;
 }
 
-
-ll bdiv(ll a, ll b, ll m) {
-    // https://www.geeksforgeeks.org/fermats-little-theorem/
-    return (a%m) * bpow(b, m-2, m) % m;
+map<int, bool> visited;
+void dfs(int n, map<int,map<int,int> > &g, vector<int> &s) {
+	if( visited[n] ) return;
+	visited[n] = true;
+	for( auto i : g[n] ) {
+		dfs( i.X, g, s );
+	}
+	s.push_back(n);
 }
 
-
-ll fact[10009];
-ll bfact(ll a, ll m) {
-    // ll ans = 1;
-    // for(int i=1; i<=a; i++) {
-    //     ans = (ans * i) % m;
-    // }
-    return fact[a];
-}
-
-
-ll ncr(ll n, ll r, ll m) {
-    return bdiv(bfact(n, m), (bfact(r, m) * bfact(n-r, m)) % m, m);
-}
+vector<vector<int> > kosaraju(map<int, map<int,int> > g) {
+	vector<int> s;
+	visited.clear();
+	dfs( 0, g, s );
+	reverse( s.A(), s.B() );
+	reverse( g );
+	
+	vector<vector<int> > res;
+	visited.clear();
+	for( auto i:s ) {
+		if( visited[i] ) continue;
+		vector<int> scc;
+		dfs( i, g, scc );
+		res.push_back( scc );
+	}
+	return res;
+}	
 
 
 int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-
-	fact[0] = 1;
-	for(int i=1; i<10009; i++) {
-		fact[i] = (fact[i-1] * (ll)i) % MOD;
-	} 
-
-	vector<int> dp(5009);
-	for(int i=2; i<=5000; i++) {
-		// for(int ix=1; ix<=i; ix++) {
-		// 	// debug(ix-1, i-ix);
-		// 	dp[i] += (dp[ix-1] * dp[i-ix]) % MOD;
-		// } 
-		// debug(bfact(2*n, MOD) / ( bfact(n+1, MOD) * bfact(n, MOD) ));
-		dp[i] = bdiv( bfact(2*i, MOD), ( bfact(i+1, MOD) * bfact(i, MOD) ), MOD );
-		// debug(i, dp[i]);
-	}
-
-	ll t, n;
-	cin >> t;
+	int t, n, m, k, p, q, gg, x, y, z, pos, u, v;
+	t = 1;
 	while(t--){
-		cin >> n;
-		dp[0] = 1;
-		dp[1] = 1;
-    	
-
-    	ll ans = 0;
-    	for(int i=1; i<=n; i++) {
-    		ans += (dp[i]*ncr(n, i, MOD)) % MOD;
-    		ans %= MOD;
-    	}
-
-    	cout << ans << "\n";
+		cin >> n >> m;
+		map<int, map<int,int> > g;
+		for(int i=0; i<m; i++) {
+	    	cin >> u >> v;
+	    	g[u][v] = 1;
+	    }
+	    vector<vector<int> > res = kosaraju( g );
+	    for( auto i:res ) {
+	    	for( auto x : i ) cout << x << " ";
+	    	cout << "\n";
+	    }
 	}
 }
-Mariye_Kurisu
+
+
+// 8 12
+// 0 1
+// 7 1
+// 1 6
+// 6 7
+// 6 0
+// 0 4
+// 6 4
+// 6 5
+// 5 3
+// 3 4
+// 4 2
+// 2 3

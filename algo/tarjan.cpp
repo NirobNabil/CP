@@ -45,79 +45,86 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #define debug(x...)
 #endif
 
-const ll MOD = 1000000009;
 
-#define CEIL(a,b) ( (a)%(b) ? (a)/(b)+1 : (a)/(b) )
+typedef map<int, map<int, bool> > graph;
 
 
-ll bpow(ll a, ll b, ll m) {
-    a %= m;
-    ll r = 1;
-    while( b>0 ) {
-        if(b & 1) r = (r * a) % m;
-        a = (a * a)%m;
-        b >>= 1;
-    }
-    return r;
+void dfs(int u, graph &g, vector<int> &disc, vector<int> &low, map<int, bool> &sg, vector<int> &st, int count, vector<vector<int> > &sccs ) {
+
+	if( disc[u] != -1 ) return;
+
+	disc[u] = ++count;
+	low[u] = count;
+	sg[u] = true; 
+	st.push_back(u);
+
+	for( auto i:g[u] ) {
+		int v = i.X;
+		dfs( v, g, disc, low, sg, st, count, sccs);
+		if( sg[v] ) low[u] = min(low[u], low[v]);
+	}
+
+	if( disc[u] == low[u] ) {
+		vector<int> scc;
+		while( 1 ) {
+			scc.push_back(st.back());
+			sg.erase(st.back());  // popping from sg because popped from stack
+			st.pop_back();
+			if( scc.back() == u ) break;
+		}
+		sccs.push_back(scc);
+	}
+}
+
+vector<vector<int> > tarjan( graph g, int vertices ) {
+	vector<vector<int> > sccs;
+	vector<int> low(vertices, -1), disc(vertices, -1);
+	map<int, bool> sg;  // sg is to check if node is in stack
+	vector<int> st;  // the stack
+	int count = -1;
+
+	for( auto i : g ) {
+		dfs( i.X, g, disc, low, sg, st, count, sccs );
+	}
+	return sccs;
 }
 
 
-ll bdiv(ll a, ll b, ll m) {
-    // https://www.geeksforgeeks.org/fermats-little-theorem/
-    return (a%m) * bpow(b, m-2, m) % m;
-}
 
-
-ll fact[10009];
-ll bfact(ll a, ll m) {
-    // ll ans = 1;
-    // for(int i=1; i<=a; i++) {
-    //     ans = (ans * i) % m;
-    // }
-    return fact[a];
-}
-
-
-ll ncr(ll n, ll r, ll m) {
-    return bdiv(bfact(n, m), (bfact(r, m) * bfact(n-r, m)) % m, m);
-}
 
 
 int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-
-	fact[0] = 1;
-	for(int i=1; i<10009; i++) {
-		fact[i] = (fact[i-1] * (ll)i) % MOD;
-	} 
-
-	vector<int> dp(5009);
-	for(int i=2; i<=5000; i++) {
-		// for(int ix=1; ix<=i; ix++) {
-		// 	// debug(ix-1, i-ix);
-		// 	dp[i] += (dp[ix-1] * dp[i-ix]) % MOD;
-		// } 
-		// debug(bfact(2*n, MOD) / ( bfact(n+1, MOD) * bfact(n, MOD) ));
-		dp[i] = bdiv( bfact(2*i, MOD), ( bfact(i+1, MOD) * bfact(i, MOD) ), MOD );
-		// debug(i, dp[i]);
-	}
-
-	ll t, n;
-	cin >> t;
+	int t, n, m, k, p, q, gg, x, y, z, pos, u, v;
+	t = 1;
 	while(t--){
-		cin >> n;
-		dp[0] = 1;
-		dp[1] = 1;
-    	
-
-    	ll ans = 0;
-    	for(int i=1; i<=n; i++) {
-    		ans += (dp[i]*ncr(n, i, MOD)) % MOD;
-    		ans %= MOD;
-    	}
-
-    	cout << ans << "\n";
+		cin >> n >> m;
+		graph g;
+		for(int i=0; i<m; i++) {
+	    	cin >> u >> v;
+	    	g[u][v] = 1;
+	    }
+	    for( auto i:g ) debug(i.X, i.Y);
+	    vector<vector<int> > res = tarjan( g, n );
+	    for( auto i:res ) {
+	    	for( auto x : i ) cout << x << " ";
+	    	cout << "\n";
+	    }
 	}
 }
-Mariye_Kurisu
+
+
+// 8 12
+// 0 1
+// 7 1
+// 1 6
+// 6 7
+// 6 0
+// 0 4
+// 6 4
+// 6 5
+// 5 3
+// 3 4
+// 4 2
+// 2 3

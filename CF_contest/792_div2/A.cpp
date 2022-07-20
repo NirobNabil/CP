@@ -45,79 +45,33 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #define debug(x...)
 #endif
 
-const ll MOD = 1000000009;
-
-#define CEIL(a,b) ( (a)%(b) ? (a)/(b)+1 : (a)/(b) )
-
-
-ll bpow(ll a, ll b, ll m) {
-    a %= m;
-    ll r = 1;
-    while( b>0 ) {
-        if(b & 1) r = (r * a) % m;
-        a = (a * a)%m;
-        b >>= 1;
-    }
-    return r;
-}
-
-
-ll bdiv(ll a, ll b, ll m) {
-    // https://www.geeksforgeeks.org/fermats-little-theorem/
-    return (a%m) * bpow(b, m-2, m) % m;
-}
-
-
-ll fact[10009];
-ll bfact(ll a, ll m) {
-    // ll ans = 1;
-    // for(int i=1; i<=a; i++) {
-    //     ans = (ans * i) % m;
-    // }
-    return fact[a];
-}
-
-
-ll ncr(ll n, ll r, ll m) {
-    return bdiv(bfact(n, m), (bfact(r, m) * bfact(n-r, m)) % m, m);
-}
-
 
 int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-
-	fact[0] = 1;
-	for(int i=1; i<10009; i++) {
-		fact[i] = (fact[i-1] * (ll)i) % MOD;
-	} 
-
-	vector<int> dp(5009);
-	for(int i=2; i<=5000; i++) {
-		// for(int ix=1; ix<=i; ix++) {
-		// 	// debug(ix-1, i-ix);
-		// 	dp[i] += (dp[ix-1] * dp[i-ix]) % MOD;
-		// } 
-		// debug(bfact(2*n, MOD) / ( bfact(n+1, MOD) * bfact(n, MOD) ));
-		dp[i] = bdiv( bfact(2*i, MOD), ( bfact(i+1, MOD) * bfact(i, MOD) ), MOD );
-		// debug(i, dp[i]);
-	}
-
-	ll t, n;
+	int t;
 	cin >> t;
 	while(t--){
-		cin >> n;
-		dp[0] = 1;
-		dp[1] = 1;
-    	
-
-    	ll ans = 0;
-    	for(int i=1; i<=n; i++) {
-    		ans += (dp[i]*ncr(n, i, MOD)) % MOD;
-    		ans %= MOD;
-    	}
-
-    	cout << ans << "\n";
+		int n, m, k, p, q, gg, x, y, z, i=0,j=0,ki=0, kj=0, pos;
+		string a, b, c="";
+		cin >> n >> m >> k;
+		cin >> a;
+		cin >> b;
+		sort(a.A(), a.B());
+		sort(b.A(), b.B());
+		debug(a, b, c);
+		while( i<a.length() && j<b.length() ) {
+			if( kj >= k || ( a[i] < b[j] && ki<k ) ) {
+				c += a[i++];
+				ki++;
+				kj = 0;
+			}else {
+				c += b[j++];
+				kj++;
+				ki = 0;
+			}
+		}
+		cout << c << endl;
+		c = "";
 	}
 }
-Mariye_Kurisu

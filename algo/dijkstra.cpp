@@ -45,79 +45,50 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #define debug(x...)
 #endif
 
-const ll MOD = 1000000009;
+typedef map<int,map<int,int> > graph;
+typedef vector<int> vi;
 
-#define CEIL(a,b) ( (a)%(b) ? (a)/(b)+1 : (a)/(b) )
+vi dijkstra( graph g, int source, int vertices ) {
+	priority_queue<pp > q;
+	vector<int> dis( vertices+9, (int)10e9 );
+	dis[source] = 0;
+	q.push( make_pair( dis[source], source ) );
+	
+	while( !q.empty() ) {
+		pp c = q.top();
+		q.pop();
+		int u = c.Y;
 
-
-ll bpow(ll a, ll b, ll m) {
-    a %= m;
-    ll r = 1;
-    while( b>0 ) {
-        if(b & 1) r = (r * a) % m;
-        a = (a * a)%m;
-        b >>= 1;
-    }
-    return r;
-}
-
-
-ll bdiv(ll a, ll b, ll m) {
-    // https://www.geeksforgeeks.org/fermats-little-theorem/
-    return (a%m) * bpow(b, m-2, m) % m;
-}
-
-
-ll fact[10009];
-ll bfact(ll a, ll m) {
-    // ll ans = 1;
-    // for(int i=1; i<=a; i++) {
-    //     ans = (ans * i) % m;
-    // }
-    return fact[a];
-}
-
-
-ll ncr(ll n, ll r, ll m) {
-    return bdiv(bfact(n, m), (bfact(r, m) * bfact(n-r, m)) % m, m);
+		for( auto i : g[u] ) {
+			int v = i.X;
+			debug( u, v );
+			debug( dis );
+			if( dis[v] > dis[u] + i.Y ) {
+				dis[v] = dis[u] + i.Y;
+				q.push( make_pair(dis[v], v) );
+			}
+		}
+	}
+	return dis;
 }
 
 
 int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-
-	fact[0] = 1;
-	for(int i=1; i<10009; i++) {
-		fact[i] = (fact[i-1] * (ll)i) % MOD;
-	} 
-
-	vector<int> dp(5009);
-	for(int i=2; i<=5000; i++) {
-		// for(int ix=1; ix<=i; ix++) {
-		// 	// debug(ix-1, i-ix);
-		// 	dp[i] += (dp[ix-1] * dp[i-ix]) % MOD;
-		// } 
-		// debug(bfact(2*n, MOD) / ( bfact(n+1, MOD) * bfact(n, MOD) ));
-		dp[i] = bdiv( bfact(2*i, MOD), ( bfact(i+1, MOD) * bfact(i, MOD) ), MOD );
-		// debug(i, dp[i]);
-	}
-
-	ll t, n;
+	int t, n, m, k, p, q, gg, x, y, z, pos;
 	cin >> t;
 	while(t--){
-		cin >> n;
-		dp[0] = 1;
-		dp[1] = 1;
+		cin >> n >> m;
+		graph g;
+		for(int i=0; i<m; i++) {
+	    	cin >> x >> y >> z;
+	    	g[x][y] = z;
+	    	g[y][x] = z;
+	    }
+
+	    vi distances = dijkstra( g, 1, n );
     	
-
-    	ll ans = 0;
-    	for(int i=1; i<=n; i++) {
-    		ans += (dp[i]*ncr(n, i, MOD)) % MOD;
-    		ans %= MOD;
-    	}
-
-    	cout << ans << "\n";
 	}
 }
-Mariye_Kurisu
+
