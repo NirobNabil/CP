@@ -28,21 +28,6 @@ int generate_primes(){
     primes[next] = -1;
 }
 
-long int big[600] = {0};
-int len = 500;
-int multiply(int n, long int big[600]){
-    long long int carry=0;
-    int i=0;
-    for(i=0; i<len; i++) {
-        long long int tmp = n*(long long int)big[i] + carry;
-        /*printf("%d %d\n", tmp, carry);*/
-        big[i] = tmp % 1000000000;
-        carry = tmp / 1000000000;
-    }
-    if (carry) big[len++] = carry;
-    return 0;
-}
-
 int occurences[10001] = {0};
 int prime_facts(int n){
     int i=0;
@@ -111,3 +96,20 @@ ll NcR(ll n, ll r)
     else  p = 1; 
   return p;
 } 
+
+long int big[600] = {0};
+int len = 500;
+int multiply(int n, long int big[600]){
+    long long int carry=0;
+    int i=0;
+    for(i=0; i<len; i++) {
+        long long int tmp = n*(long long int)big[i] + carry;
+        /*printf("%d %d\n", tmp, carry);*/
+        big[i] = tmp % 1000000000;
+        carry = tmp / 1000000000;
+    }
+    if (carry) big[len++] = carry;
+    return 0;
+}
+
+

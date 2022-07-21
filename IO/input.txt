@@ -1,0 +1,8 @@
+5
+ab
+abc
+abcd
+abce
+abcefg
+
+abcff

@@ -149,3 +149,23 @@ int find_all_solutions(int a, int b, int c, int minx, int maxx, int miny, int ma
         return 0;
     return (rx - lx) / abs(b) + 1;
 }
+
+// combinatorics lelbaba
+const int N = 2e5+5;
+const int mod = 1e9+7;
+
+namespace com{
+    array <int, N+1> fact, inv, inv_fact;
+    void init(){
+        fact[0] = inv_fact[0] = 1;
+        for(int i = 1; i <= N; i++){
+            inv[i] = i == 1 ? 1 : (ll) inv[i - mod%i] * (mod/i + 1) % mod;
+            fact[i] = (ll) fact[i-1] * i % mod;
+            inv_fact[i] = (ll) inv_fact[i-1] * inv[i] % mod;
+        }
+    }
+    int C(int n,int r){
+        if(fact[0] != 1) init();
+        return (r < 0 or r > n) ? 0 : (ll) fact[n]*inv_fact[r] % mod * inv_fact[n-r] % mod;
+    }
+}

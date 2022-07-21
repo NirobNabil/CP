@@ -1,0 +1,1 @@
+gg[search(s)] = [false]
