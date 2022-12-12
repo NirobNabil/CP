@@ -1,8 +1,7 @@
-5
-ab
-abc
-abcd
-abce
-abcefg
 
-abcff
+5
+10
+5
+200
+15
+20

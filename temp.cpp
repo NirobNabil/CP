@@ -1,107 +1,72 @@
+
+// A C++ program to find convex hull of a set of points
 #include <bits/stdc++.h>
-using namespace std;
-#define ll long long int
-#define vv vector<int>
-#define pp pair<int,int>
-
-#define pb(x) push_back(x)
-#define in(x) insert(x)
-#define del(x) erase(x)
-#define emp(x) emplace_back(x)
-#define mt make_tuple
-
-#define X first
-#define Y second
-#define A begin
-#define B end
-#define S1 100000
-
-
-void __print(int x) {cerr << x;}
-void __print(long x) {cerr << x;}
-void __print(long long x) {cerr << x;}
-void __print(unsigned x) {cerr << x;}
-void __print(unsigned long x) {cerr << x;}
-void __print(unsigned long long x) {cerr << x;}
-void __print(float x) {cerr << x;}
-void __print(double x) {cerr << x;}
-void __print(long double x) {cerr << x;}
-void __print(char x) {cerr << '\'' << x << '\'';}
-void __print(const char *x) {cerr << '\"' << x << '\"';}
-void __print(const string &x) {cerr << '\"' << x << '\"';}
-void __print(bool x) {cerr << (x ? "true" : "false");}
-
-template<typename T, typename V>
-void __print(const pair<T, V> &x) {cerr << '{'; __print(x.first); cerr << ','; __print(x.second); cerr << '}';}
-template<typename T>
-void __print(const T &x) {int f = 0; cerr << '{'; for (auto &i: x) cerr << (f++ ? "," : ""), __print(i); cerr << "}";}
-void _print() {cerr << "]\n";}
-template <typename T, typename... V>
-void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v...);}
-
-#ifdef MONKE
-#define debug(x...) cerr << "[" << #x << "] = [", _print(x)
-#else
-#define debug(x...)
-#endif
-
-#define MAXN 1000
-class Stack {
-    public:
-        int st[MAXN];
-        int tp = -1;
-
-        void push( int x ) {
-            st[++tp] = x;
-        }
-
-        void pop() {
-            tp = max(-1, tp-1);
-        }   
-
-        int top() {
-            if( tp==-1 ) return -1;
-            return st[tp];
-        }
-
-        int size() {
-            return tp+1;
-        }
-} pegA, pegB, pegC; 
-
-Stack pegs[3] = [&pegA, &pegB, &pegC];
-
-void init( int n ) {
-    for(int i=n; i>0; i++) {
-        pegA.push(i);
-    }
+using namespace std; 
+struct Point                    // To store the co-ordinates of every point
+{
+    int x, y;
+} ;
+// To find orientation of ordered triplet (p, q, r).
+// The function returns following values
+// 0 --> p, q and r are colinear
+// 1 --> Clockwise
+// 2 --> Counterclockwise
+int orientation(Point p, Point q, Point r)
+{
+    int val = (q.y - p.y) * (r.x - q.x) -
+              (q.x - p.x) * (r.y - q.y);
+    if (val == 0) return 0;      // colinear
+    return (val > 0)? 1: 2;     // clock or counterclock wise
 }
-
-void print() {
-    int as = pegA.size(), bs = pegB.size(), cs = pegC.size();
-    for(int i=max({as,bs,cs}); i>0; i--) {
-        if( i < as ) printf("%d ", &pegA.st[i]);
-        else printf("  ");
-
-        if( i < bs ) printf("%d ", &pegB.st[i]);
-        else printf("  ");
-
-        if( i < cs ) printf("%d ", &(pegC.st[i]));
-        else printf("  ");
-    } 
+// Prints convex hull of a set of n points
+void convexHull(Point points[], int n)
+    {
+    // There must be at least 3 points
+    if (n < 3) return;
+    // Initialize Result
+    vector<Point> hull;
+    // Find the leftmost point
+    int l = 0;
+    for (int i = 1; i < n; i++)
+        if (points[i].x < points[l].x)
+            l = i;
+    // Start from leftmost point, keep moving counterclockwise
+    // until reach the start point again.  This loop runs O(h)
+    // times where h is number of points in result or output.
+    int p = l, q;
+    do
+    {
+        // Add current point to result
+        hull.push_back(points[p]);
+        // Search for a point 'q' such that orientation(p, x,
+        // q) is counterclockwise for all points 'x'. The idea
+        // is to keep track of last visited most counterclock-
+        // wise point in q. If any point 'i' is more counterclock-
+        // wise than q, then update q.
+        q = (p+1)%n;
+        for (int i = 0; i < n; i++)
+        {
+           // If i is more counterclockwise than current q, then
+           // update q
+           if (orientation(points[p], points[i], points[q]) == 1)
+               q = i;
+        }
+        // Now q is the most counterclockwise with respect to p
+        // Set p as q for next iteration, so that q is added to
+        // result 'hull'
+        p = q;
+    } while (p != l);  // While we don't come to first point
+    // Print Result
+    for (int i = 0; i < hull.size(); i++)
+        cout << "(" << hull[i].x << ", "
+              << hull[i].y << ")\n";
 }
-
-void move_disk( char a, char b ) {
-    int x = a-'A', y = b - 'A';
-    if( pegs[x].top() > pegs[y].top() && pegs[y].top() == -1 ) {
-        printf("Illegal Move\n");
-        return;
-    }
-    pegs[y].push(pegs[x].top());
-    pegs[x].pop();
-}
-
-int main(){
-    init(5);
-    move_disk('A', 'B');
+// Driver program to test above functions
+int main()
+{
+    Point points[] = {{0, 3}, {2, 2}, {1, 1}, {2, 1},
+                      {3, 0}, {0, 0}, {3, 3}};
+    int n = sizeof(points)/sizeof(points[0]);
+    convexHull(points, n);
+    return 0;
 }

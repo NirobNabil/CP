@@ -1,6 +1,15 @@
 #define CEIL(a,b) ( (a)%(b) ? (a)/(b)+1 : (a)/(b) )
 
 
+// find divisors of all number under 1000
+for( int i=2; i<=1000; i++ ) {
+    if( divisors[i].size() > 0 ) continue;
+    for( int ix=i; ix<=1000; ix += i ) {
+        divisors[ix].push_back(i);
+    }
+}
+
+
 long long binpow(long long a, long long b) {
     long long res = 1;
     while (b > 0) {
