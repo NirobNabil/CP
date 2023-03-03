@@ -63,49 +63,50 @@ void print(vi &tree, int si, int n){
 
 
 
-void build(vi &a, vi &tree, int n, int si, int ss, int se){
-  //cout << "U ss: " << ss << " se: " << se << " rs: " << rs << " re: " << re << " si: " << si << " lazy[si] " << lazy[si] << endl;
-  if(ss==se){
-    if( ss <= n ) tree[si] += a[ss];
-    else tree[si] = 0;
-
-    // cout << "itree[" << si << "] = " << tree[si] << endl;
-    return;
-  }
-
-  int mid = (ss+se)/2;
-  build(a, tree, n, si*2, ss, mid);
-  build(a, tree, n, si*2+1, mid+1, se);
-
-  tree[si] = tree[si*2] + tree[si*2+1];
-  // cout << "tree[" << si << "] = " << tree[si] << endl;
-}
+// void build(vi &a, vi &tree, int n, int si, int ss, int se){
+// cout << "U ss: " << ss << " se: " << se << " rs: " << rs << " re: " << re << " si: " << si << " lazy[si] " << lazy[si] << endl;
+//   if(ss==se){
+//     if( ss <= n ) tree[si] += a[ss];
+//     else tree[si] = 0;
+// 
+// cout << "itree[" << si << "] = " << tree[si] << endl;
+//     return;
+//   }
+// 
+//   int mid = (ss+se)/2;
+//   build(a, tree, n, si*2, ss, mid);
+//   build(a, tree, n, si*2+1, mid+1, se);
+// 
+//   tree[si] = tree[si*2] + tree[si*2+1];
+// cout << "tree[" << si << "] = " << tree[si] << endl;
+// }
 
 void update(vi &a, vi &tree, vi &lazy, int n, int si, int ss, int se, int rs, int re, ll add){
   // cout << "U ss: " << ss << " se: " << se << " rs: " << rs << " re: " << re << " si: " << si << endl;
-  if(ss > se || rs > se || re < ss) return;
-  if(ss==se){
-    tree[si] += add;
-    a[ss] += add;
-    return;
-  }
-
-  // si*2 > n if si is a leaf node
-  if(ss>=rs && se<=re && si<n){
-    lazy[si] += add*(se-ss+1);
-    tree[si] += add*(se-ss+1);
-    return;
-  }
-
+  if( rs > se || re < ss) return;
+      
   if(lazy[si]){
     // cout << si << " - " << si*2 << endl;
-    lazy[si*2] = lazy[si];
-    lazy[si*2+1] = lazy[si];
-    tree[si*2] = lazy[si*2];
-    tree[si*2+1] = lazy[si*2+1];
+    tree[si] += (se-ss+1) * lazy[si];
+    if( ss != se) {
+        lazy[si*2] += lazy[si];
+        lazy[si*2+1] += lazy[si]; 
+    }
     lazy[si] = 0;
     // print( lazy, 1, n*2 );
   }
+
+
+  // si*2 > n if si is a leaf node
+  if(ss>=rs && se<=re && si<n){
+    tree[si] += add*(se-ss+1);
+    if( ss != se ) {
+        lazy[si*2] += add;
+        lazy[si*2+1] += add;
+    }
+    return;
+  }
+
 
   int mid = (ss+se)/2;
   update(a, tree, lazy, n, si*2, ss, mid, rs, re, add);
@@ -118,16 +119,20 @@ int query(vi &tree, vi &lazy, int n, int si, int ss, int se, int rs, int re){
   //cout << "Q ss: " << ss << " se: " << se << " rs: " << rs << " re: " << re << " si: " << si << "lazy[si] " << lazy[si] << endl;
   // printlazy(lazy, n);
   if(ss>re || se<rs || ss>se) return 0;
-  if(ss==se) return tree[si];
+  
+  if(lazy[si]){
+    tree[si] = (se-ss+1) * lazy[si];
+    if( ss != se )
+        lazy[si*2] += lazy[si];
+        lazy[si*2+1] += lazy[si];
+    lazy[si] = 0;
+  }
+  
   if(ss>=rs && se<=re) return tree[si];
 
 
   // ekhane += hobe na = e thik ache think carefully
-  if(lazy[si]){
-   tree[si*2] = lazy[si]/2;
-   tree[si*2+1] = lazy[si]/2;
-   lazy[si] = 0;
-  }
+  
 
   int mid = (ss+se)/2;
   return (
